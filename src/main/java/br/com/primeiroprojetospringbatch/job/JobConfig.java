@@ -2,6 +2,7 @@ package br.com.primeiroprojetospringbatch.job;
 
 import br.com.primeiroprojetospringbatch.step.StepConfig;
 import org.springframework.batch.core.Job;
+import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
@@ -11,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
 
 @EnableBatchProcessing
 @Configuration
-public class BatchConfig {
+public class JobConfig {
 
     @Autowired
     private JobBuilderFactory jobBuilderFactory;
@@ -20,11 +21,11 @@ public class BatchConfig {
     StepConfig stepConfig;
 
     @Bean
-    public Job imprimeOlaJob() {
+    public Job fixedWidthFileJob(Step readingFixedWidthFileStep) {
 
         return jobBuilderFactory
-                .get("imprimeOlaJob")
-                .start(stepConfig.imprimeParOuImpar())
+                .get("fixedWidthFile")
+                .start(readingFixedWidthFileStep)
                 .incrementer(new RunIdIncrementer())
                 .build();
     }
