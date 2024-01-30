@@ -14,7 +14,7 @@ public class ImprimirWriter {
 //    }
 
     @Bean
-    public ItemWriter<Client> readingFixedWidthFileWriter() {
+    public ItemWriter<Client> readingFileWriter() {
         return itens -> itens.forEach(System.out::println);
     }
 }

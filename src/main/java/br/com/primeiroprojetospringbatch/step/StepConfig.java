@@ -39,12 +39,22 @@ public class StepConfig {
 //                .build();
 //    }
 
-    @Bean
+    @Bean(name = "readingFixedWidthFileStep")
     public Step readingFixedWidthFile(ItemReader<Client> readingFixedWidthFileReader, ItemWriter<Client> readingFixedWidthFileWriter) {
         return stepBuilderFactory
                 .get("readingFixedWidthFileStep")
                 .<Client, Client>chunk(1)
                 .reader(readingFixedWidthFileReader)
+                .writer(readingFixedWidthFileWriter)
+                .build();
+    }
+
+    @Bean(name = "readingDelimitedFileStep")
+    public Step readingDelimitedFile(ItemReader<Client> readingDelimitedFileReader, ItemWriter<Client> readingFixedWidthFileWriter) {
+        return stepBuilderFactory
+                .get("readingDelimitedFileStep")
+                .<Client, Client>chunk(1)
+                .reader(readingDelimitedFileReader)
                 .writer(readingFixedWidthFileWriter)
                 .build();
     }

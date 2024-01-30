@@ -7,6 +7,7 @@ import org.springframework.batch.core.configuration.annotation.EnableBatchProces
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -21,11 +22,12 @@ public class JobConfig {
     StepConfig stepConfig;
 
     @Bean
-    public Job fixedWidthFileJob(Step readingFixedWidthFileStep) {
+    public Job readingFileJob(@Qualifier("readingFixedWidthFileStep") Step readingFixedWidthFileStep, @Qualifier("readingDelimitedFileStep") Step readingDelimitedFileStep) {
 
         return jobBuilderFactory
                 .get("fixedWidthFile")
                 .start(readingFixedWidthFileStep)
+                .next(readingDelimitedFileStep)
                 .incrementer(new RunIdIncrementer())
                 .build();
     }
