@@ -22,12 +22,14 @@ public class JobConfig {
     StepConfig stepConfig;
 
     @Bean
-    public Job readingFileJob(@Qualifier("readingFixedWidthFileStep") Step readingFixedWidthFileStep, @Qualifier("readingDelimitedFileStep") Step readingDelimitedFileStep) {
+    public Job readingFileJob(@Qualifier("readingFixedWidthFileStep") Step readingFixedWidthFileStep, @Qualifier("readingDelimitedFileStep") Step readingDelimitedFileStep,
+                              @Qualifier("readingMultipleFormatFileStep") Step readingMultipleFormatFileStep) {
 
         return jobBuilderFactory
                 .get("fixedWidthFile")
                 .start(readingFixedWidthFileStep)
                 .next(readingDelimitedFileStep)
+                .next(readingMultipleFormatFileStep)
                 .incrementer(new RunIdIncrementer())
                 .build();
     }

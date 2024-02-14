@@ -1,6 +1,7 @@
 package br.com.primeiroprojetospringbatch.step;
 
 import br.com.primeiroprojetospringbatch.domain.Client;
+import br.com.primeiroprojetospringbatch.domain.Transaction;
 import br.com.primeiroprojetospringbatch.processor.ComparadorProcessor;
 import br.com.primeiroprojetospringbatch.reader.ContadorReader;
 import br.com.primeiroprojetospringbatch.reader.ReadingFixedWidthFileItemReader;
@@ -9,7 +10,9 @@ import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemWriter;
+import org.springframework.batch.item.file.FlatFileItemReader;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -56,6 +59,19 @@ public class StepConfig {
                 .<Client, Client>chunk(1)
                 .reader(readingDelimitedFileReader)
                 .writer(readingFixedWidthFileWriter)
+                .build();
+    }
+
+    @SuppressWarnings("rawtypes")
+    @Bean(name = "readingMultipleFormatFileStep")
+    public Step readingMultipleFormatFile(@Qualifier("readingMultipleFormatFileReader") FlatFileItemReader readingMultipleFormatFileReader, ItemWriter readingMultipleFormatFileWriter) {
+
+        //noinspection unchecked
+        return stepBuilderFactory
+                .get("readingMultipleFormatFileStep")
+                .chunk(1)
+                .reader(readingMultipleFormatFileReader)
+                .writer(readingMultipleFormatFileWriter)
                 .build();
     }
 

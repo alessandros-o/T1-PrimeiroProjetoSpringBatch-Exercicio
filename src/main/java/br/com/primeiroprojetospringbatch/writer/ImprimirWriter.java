@@ -14,7 +14,13 @@ public class ImprimirWriter {
 //    }
 
     @Bean
-    public ItemWriter<Client> readingFileWriter() {
+    public ItemWriter<Client> readingFixedWidthFileWriter() {
+        return itens -> itens.forEach(System.out::println);
+    }
+
+    @SuppressWarnings("rawtypes")
+    @Bean
+    public ItemWriter readingMultipleFormatFileWriter() {
         return itens -> itens.forEach(System.out::println);
     }
 }
