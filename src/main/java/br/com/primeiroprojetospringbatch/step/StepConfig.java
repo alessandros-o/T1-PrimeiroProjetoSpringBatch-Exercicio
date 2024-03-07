@@ -4,6 +4,7 @@ import br.com.primeiroprojetospringbatch.domain.Client;
 import br.com.primeiroprojetospringbatch.domain.Transaction;
 import br.com.primeiroprojetospringbatch.processor.ComparadorProcessor;
 import br.com.primeiroprojetospringbatch.reader.ContadorReader;
+import br.com.primeiroprojetospringbatch.reader.FileClientTransactionReader;
 import br.com.primeiroprojetospringbatch.reader.ReadingFixedWidthFileItemReader;
 import br.com.primeiroprojetospringbatch.writer.ImprimirWriter;
 import org.springframework.batch.core.Step;
@@ -70,7 +71,7 @@ public class StepConfig {
         return stepBuilderFactory
                 .get("readingMultipleFormatFileStep")
                 .chunk(1)
-                .reader(readingMultipleFormatFileReader)
+                .reader(new FileClientTransactionReader(readingMultipleFormatFileReader))
                 .writer(readingMultipleFormatFileWriter)
                 .build();
     }

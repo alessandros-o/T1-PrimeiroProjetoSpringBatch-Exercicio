@@ -1,11 +1,24 @@
 package br.com.primeiroprojetospringbatch.domain;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Client {
 
-    String name;
-    String surname;
-    Integer age;
-    String email;
+    private String name;
+    private String surname;
+    private Integer age;
+    private String email;
+
+    private List<Transaction> transacoes = new ArrayList<>();
+
+    public List<Transaction> getTransacoes() {
+        return transacoes;
+    }
+
+    public void setTransacoes(List<Transaction> transacoes) {
+        this.transacoes = transacoes;
+    }
 
     public String getName() {
         return name;
@@ -46,6 +59,7 @@ public class Client {
                 ", surname='" + surname + '\'' +
                 ", age=" + age +
                 ", email='" + email + '\'' +
+                (transacoes.isEmpty() ? "" : ", transacoes=" + transacoes) +
                 '}';
     }
 }
