@@ -12,6 +12,7 @@ import org.springframework.batch.core.configuration.annotation.StepBuilderFactor
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.batch.item.file.FlatFileItemReader;
+import org.springframework.batch.item.file.MultiResourceItemReader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -72,6 +73,19 @@ public class StepConfig {
                 .get("readingMultipleFormatFileStep")
                 .chunk(1)
                 .reader(new FileClientTransactionReader(readingMultipleFormatFileReader))
+                .writer(readingMultipleFormatFileWriter)
+                .build();
+    }
+
+    @SuppressWarnings("rawtypes")
+    @Bean(name = "readingMultipleFilesStep")
+    public Step readingMultipleFilesStep(@Qualifier("multiplosArquivosClienteTransacao") MultiResourceItemReader multiplosArquivosClienteTransacao, ItemWriter readingMultipleFormatFileWriter) {
+
+        //noinspection unchecked
+        return stepBuilderFactory
+                .get("readingMultipleFilesStep")
+                .chunk(1)
+                .reader(multiplosArquivosClienteTransacao)
                 .writer(readingMultipleFormatFileWriter)
                 .build();
     }

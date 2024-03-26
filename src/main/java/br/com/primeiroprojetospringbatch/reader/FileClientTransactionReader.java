@@ -3,13 +3,16 @@ package br.com.primeiroprojetospringbatch.reader;
 import br.com.primeiroprojetospringbatch.domain.Client;
 import br.com.primeiroprojetospringbatch.domain.Transaction;
 import org.springframework.batch.item.*;
+import org.springframework.batch.item.file.FlatFileItemReader;
+import org.springframework.batch.item.file.ResourceAwareItemReaderItemStream;
+import org.springframework.core.io.Resource;
 
-public class FileClientTransactionReader implements ItemStreamReader<Client> {
+public class FileClientTransactionReader implements ItemStreamReader<Client>, ResourceAwareItemReaderItemStream<Client> {
 
     private Object objAtual;
-    private ItemStreamReader<Object> delegate;
+    private FlatFileItemReader<Object> delegate;
 
-    public FileClientTransactionReader(ItemStreamReader<Object> delegate) {
+    public FileClientTransactionReader(FlatFileItemReader<Object> delegate) {
         this.delegate = delegate;
     }
 
@@ -49,5 +52,10 @@ public class FileClientTransactionReader implements ItemStreamReader<Client> {
     @Override
     public void close() throws ItemStreamException {
         delegate.close();
+    }
+
+    @Override
+    public void setResource(Resource resource) {
+        delegate.setResource(resource);
     }
 }
